@@ -1,0 +1,56 @@
+light.hue_white_lamp_8:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:03:69:d7:f7-0b
+light.hue_white_lamp_5:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:c7:01:21-0b
+light.hue_white_lamp_3:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:c7:01:23-0b
+light.hue_white_lamp_7:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:2b:f2:51-0b
+light.hue_white_lamp_9:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:03:69:e3:9c-0b
+light.hue_color_lamp_4:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:88:e6:f3-0b
+light.hue_color_lamp_5:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:88:4c:b2-0b
+light.hue_color_lamp_2:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:92:8e:b1-0b
+light.hue_color_lamp_1:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:da:1e:d2-0b
+light.hue_color_lamp_3:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:e8:17:17-0b
+light.hue_white_lamp_1:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:97:94:41-0b
+light.hue_white_lamp_6:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:a3:e9:16-0b
+light.hue_white_lamp_2:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:95:b2:d7-0b
+light.hue_white_lamp_4:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:a3:df:2c-0b

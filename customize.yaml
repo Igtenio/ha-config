@@ -1,0 +1,22 @@
+#################################################################
+## Customize
+#################################################################
+    group.all_automations:
+      hidden: false
+      friendly_name: 'Automations'
+    group.all_scripts:
+      hidden: false
+      friendly_name: 'Scripts'
+    group.all_devices:
+      hidden: false
+      friendly_name: 'Devices'
+    group.all_lights:
+      hidden: false
+      friendly_name: 'Lights'
+    group.all_switches:
+      hidden: false
+      friendly_name: 'Switches'
+    binary_sensor.floorplan:
+      hidden: false
+      custom_ui_state_card: state-card-floorplan
+      config: !include floorplan.yaml

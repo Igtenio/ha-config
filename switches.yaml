@@ -1,0 +1,13 @@
+#################################################################
+## Switches
+#################################################################
+  - platform: mqtt
+    name: "Media Center Switch"
+    state_topic: "smartthings/Media Center/switch"
+    command_topic: "smartthings/Media Center/switch"
+    payload_on: "on"
+    payload_off: "off"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
+    qos: 1

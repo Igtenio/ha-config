@@ -1,0 +1,39 @@
+#################################################################
+## Scripts
+#################################################################
+#  dlmv2:
+#    sequence:
+#      - delay: '00:00:30'
+#      - service: light.turn_off
+#        data_template:
+#          entity_id: '{{ variable.current_light }}'
+
+  night_lights:
+    alias: Night Lights
+    sequence:
+      - service: scene.turn_on
+        entity_id: scene.night_lights
+
+  louie_lights:
+    alias: Louie Lights
+    sequence:
+      - service: scene.turn_on
+        entity_id: scene.louie_lights
+
+  ashley_lights:
+    alias: Ashley Lights
+    sequence:
+      - service: scene.turn_on
+        entity_id: scene.ashley_lights
+
+  gary_lights:
+    alias: Gary Lights
+    sequence:
+      - service: scene.turn_on
+        entity_id: scene.gary_lights
+
+  weekend_lights:
+    alias: Weekend Lights
+    sequence:
+      - service: scene.turn_on
+        entity_id: scene.weekend_lights

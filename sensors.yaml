@@ -1,0 +1,49 @@
+#################################################################
+## Sensors
+#################################################################
+  - platform: wunderground
+    api_key: 671e285acc28a590
+    monitored_conditions:
+      - temp_high_1d_f
+      - temp_f
+      - temp_low_1d_f
+      - precip_1d
+      - wind_mph
+      - wind_1d_mph
+      - alerts
+      - weather_1d
+      - weather_1n
+      - weather_2d
+      - weather_2n
+      - weather_3d
+      - weather_3n
+
+  - platform: mqtt
+    name: "Front Door Temp"
+    state_topic: "smartthings/Front Door Sensor/temperature"
+    unit_of_measurement: "°F"
+    retain: true
+
+  - platform: mqtt
+    name: "Front Door Batt"
+    state_topic: "smartthings/Front Door Sensor/battery"
+    unit_of_measurement: "%"
+    retain: true
+
+  - platform: mqtt
+    name: "Bathroom Temp"
+    state_topic: "smartthings/Bathroom Sensor/temperature"
+    unit_of_measurement: "°F"
+    retain: true
+
+  - platform: mqtt
+    name: "Bathroom Batt"
+    state_topic: "smartthings/Bathroom Sensor/battery"
+    unit_of_measurement: "%"
+    retain: true
+
+  - platform: mqtt
+    name: "Media Center Watts"
+    state_topic: "smartthings/Media Center/power"
+    unit_of_measurement: "W"
+    retain: true

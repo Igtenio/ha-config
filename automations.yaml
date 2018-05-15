@@ -1,0 +1,420 @@
+#################################################################
+## Automations
+#################################################################
+#################### Automations ahoy.####################
+####################      System      ####################
+- alias: 'Set theme at startup'
+  hide_entity: true
+  initial_state: 'on'
+  trigger:
+   - platform: homeassistant
+     event: start
+  action:
+    service: frontend.set_theme
+    data:
+      name: darkred
+
+####################     Variables    ####################
+- alias: 'Daylight variable off'
+  hide_entity: true
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-01:00:00"
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.vdaylight
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: device_tracker.gary_6p
+        state: 'home'
+      - condition: state
+        entity_id: device_tracker.ashley_5e
+        state: 'home'
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.ashley_lights"
+
+- alias: 'Daylight variable on'
+  hide_entity: true
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "01:00:00"
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.vdaylight
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.vnightlights
+    - service: light.turn_off
+      data:
+        entity_id:
+          - "light.bedroom"
+          - "light.dining_room"
+          - "light.hallway"
+          - "light.kitchen"
+          - "light.living_room"
+
+####################      Hidden      ####################
+- alias: 'Night Lights'
+  hide_entity: true
+  trigger:
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.vnightlights
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: System.Shutdown
+    - service: scene.turn_on
+      data:
+        entity_id: scene.night_lights
+
+####################     Lighting     ####################
+##########################################################
+#White Light:
+#
+#    - service: light.turn_on
+#      data:
+#        entity_id:
+#        - "light.dining_room"
+#        - "light.kitchen"
+#        brightness: 38
+#        kelvin: 2257
+#
+#Color Light displaying white:
+#
+#    - service: light.turn_on
+#      data:
+#        entity_id: "light.living_room"
+#        brightness: 38
+#        rgb_color: [255,211,129]
+#
+#Brightness is 0-100 X 2.55
+#
+#https://nixsensor.com/free-color-converter/
+##########################################################
+
+#- alias: 'Daylight Light Minimizer'
+#  trigger:
+#    platform: time
+#    minutes: '/15'
+#    seconds: 00
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: input_boolean.vdaylight
+#        state: 'on'
+#      - condition: state
+#        entity_id: input_boolean.vheadachemode
+#        state: 'off'
+#  action:
+#    service: light.turn_off
+#    data:
+#      entity_id:
+#        - light.bedroom
+#        - light.dining_room
+#        - light.hallway
+#        - light.kitchen
+#        - light.living_room
+
+#- alias: 'Daylight Light Minimizer v2'
+#  trigger:
+#    platform: state
+#    entity_id:
+#      - light.dining_room
+#      - light.kitchen
+#    to: 'on'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: input_boolean.vdaylight
+#        state: 'on'
+#      - condition: state
+#        entity_id: input_boolean.vheadachemode
+#        state: 'off'
+#  action:
+#    service: script.turn_on
+#    entity_id: script.dlmv2
+#    data_template:
+#      variables:
+#        current_light: '{{ trigger.entity_id }}'
+
+- alias: 'Louie Lights Detector'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.gary_6p
+      to: 'not_home'
+      for: '00:10:00'
+    - platform: state
+      entity_id: device_tracker.ashley_5e
+      to: 'not_home'
+      for: '00:10:00'
+    - platform: state
+      entity_id: input_boolean.vdaylight
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vguestmode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'off'
+      - condition: state
+        entity_id: device_tracker.gary_6p
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.ashley_5e
+        state: 'not_home'
+  action:
+    service: scene.turn_on
+    entity_id: scene.louie_lights
+
+- alias: 'Bathroom Light AutoOn'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bathroom_motion
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.bathroom
+    state: 'off'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: "light.bathroom"
+        kelvin: 2257
+        brightness: >
+          {% if is_state("input_boolean.vnightlights", "off") -%}
+            75
+          {%- else -%}
+            25
+          {%- endif %}
+
+- alias: 'Bathroom Light AutoOff'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bathroom_motion
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition:
+  action:
+    - service: light.turn_off
+      data:
+        entity_id: "light.bathroom"
+
+- alias: 'Media Center Plug AutoOff'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.media_center_watts
+    below: 5
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 15
+  condition:
+    condition: state
+    entity_id: switch.media_center_switch
+    state: 'on'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: "switch.media_center_switch"
+
+- alias: 'Welcome Home Gary'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door_status
+    from: 'closed'
+    to: 'open'
+  condition:
+    - condition: state
+      entity_id: input_boolean.vdaylight
+      state: 'off'
+    - condition: time
+      before: '06:00:00'
+      after: '23:00:00'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.gary_lights"
+
+- alias: 'Welcome Home Ashley'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door_status
+    from: 'closed'
+    to: 'open'
+  condition:
+    - condition: state
+      entity_id: input_boolean.vdaylight
+      state: 'off'
+    - condition: time
+      before: '23:00:00'
+      after: '12:00:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.ashley_lights"
+
+- alias: 'Welcome Home, Weekend Edition'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door_status
+    from: 'closed'
+    to: 'open'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:00:00'
+        after: '06:00:00'
+        weekday:
+          - sat
+          - sun
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: device_tracker.ashley_5e
+            state: 'home'
+          - condition: state
+            entity_id: device_tracker.gary_6p
+            state: 'home'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.weekend_lights"
+
+####################  Daylight Scripts  ##################
+- alias: 'DLM_bedroom'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.bedroom
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.bedroom
+
+- alias: 'DLM_hallway'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.hallway
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.hallway
+
+- alias: 'DLM_kitchen'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.kitchen
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.kitchen
+
+- alias: 'DLM_dining_room'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.dining_room
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.dining_room
+
+- alias: 'DLM_living_room'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.living_room
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.living_room
+##########################################################

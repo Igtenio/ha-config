@@ -1,0 +1,168 @@
+#################################################################
+## Configuration
+#################################################################
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_lat
+  longitude: !secret home_lon
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret home_elev
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Chicago
+  # Customization file
+  customize: !include customize.yaml
+
+zone:
+  name: Home
+  latitude: !secret home_lat
+  longitude: !secret home_lon
+  radius: 50
+  icon: mdi:home
+
+zone 2:
+  name: Sonifi
+  latitude: !secret son_lat
+  longitude: !secret son_lon
+  radius: 100
+  icon: mdi:headset
+
+zone 3:
+  name: Sanford
+  latitude: !secret san_lat
+  longitude: !secret san_lon
+  radius: 100
+  icon: mdi:folder-multiple
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+  themes: !include themes.yaml
+  extra_html_url:
+    /local/custom_ui/state-card-floorplan.html
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret http_password
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  base_url: !secret http_base_url
+#  ssl_certificate: /ssl/certificate.pem
+#  ssl_key: /ssl/privkey.pem
+  # Secrets are defined in the file secrets.yaml
+  # api_password: !secret http_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Panel to add the IDE to the sidebar
+panel_iframe:
+  ide:
+    title: 'IDE'
+    icon: mdi:code-braces
+    url: !secret iframe_ide_url
+
+panel_custom:
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+    config: !include floorplan.yaml
+
+# Track the sun
+sun:
+
+# Weather prediction
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+# IFTTT
+ifttt:
+  key: !secret ifttt_key
+
+mqtt:
+  broker: localhost
+  port: 1883
+
+# Device tracking
+device_tracker:
+  - platform: ping
+    count: 4
+    interval_seconds: 30
+    consider_home: 0:10
+    hosts:
+      gary_6p: 10.0.0.141
+      ashley_5e: 10.0.0.142
+    track_new_devices: False
+  - platform: owntracks
+    secret: !secret ot_salt
+    consider_home: 96:00
+    track_new_devices: False
+
+remote:
+  - platform: harmony
+    name: Living Room
+    host: 10.0.0.143
+
+media_player:
+  - platform: kodi
+    host: 10.0.0.144
+    name: Kodi
+    username: !secret kodi_username
+    password: !secret kodi_password
+    turn_on_action:
+      service: switch.turn_on
+      data:
+        entity_id: switch.media_center_switch
+    turn_off_action:
+      service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: System.Shutdown
+  - platform: firetv
+    name: FireTV
+
+automation: !include automations.yaml
+binary_sensor: !include binary_sensors.yaml
+group: !include groups.yaml
+input_boolean: !include input_boolean.yaml
+#input_text: !include input_text.yaml
+scene: !include scene.yaml
+script: !include scripts.yaml
+sensor: !include sensors.yaml
+switch: !include switches.yaml

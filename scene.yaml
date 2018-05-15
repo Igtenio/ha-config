@@ -1,0 +1,121 @@
+#################################################################
+## Scenes
+#################################################################
+  - name: Louie Lights
+    entities:
+      light.hallway: off
+      light.dining_room: off
+      light.kitchen:
+        state: on
+        brightness: 77
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 128
+        rgb_color: [255,211,129]
+      light.bedroom: 
+        state: on
+        brightness: 77
+        rgb_color: [255,211,129]
+  - name: Night Lights
+    entities:
+      light.bedroom: off
+      light.hallway: off
+      light.kitchen:
+        state: on
+        brightness: 39
+        kelvin: 2257
+      light.dining_room:
+        state: on
+        brightness: 8
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 8
+        rgb_color: [255,211,129]
+  - name: Ashley Lights
+    entities:
+      light.bedroom:
+        state: on
+        brightness: 76
+        rgb_color: [255,211,129]
+      light.hallway:
+        state: on
+        brightness: 127
+        kelvin: 2257
+      light.kitchen:
+        state: on
+        brightness: 192
+        kelvin: 2257
+      light.dining_room:
+        state: on
+        brightness: 127
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 178
+        rgb_color: [255,211,129]
+  - name: Gary Lights
+    entities:
+      light.bedroom: off
+      light.hallway: off
+      light.kitchen:
+        state: on
+        brightness: 76
+        kelvin: 2257
+      light.dining_room:
+        state: on
+        brightness: 76
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 127
+        rgb_color: [255,211,129]
+  - name: Weekend Lights
+    entities:
+      light.bedroom:
+        state: on
+        brightness: 102
+        rgb_color: [255,211,129]
+      light.hallway:
+        state: on
+        brightness: 102
+        kelvin: 2257
+      light.kitchen:
+        state: on
+        brightness: 102
+        kelvin: 2257
+      light.dining_room:
+        state: on
+        brightness: 102
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 192
+        rgb_color: [255,211,129]
+  - name: Lumos
+    entities:
+      light.hallway:
+        state: on
+        brightness: 255
+        kelvin: 2257
+      light.dining_room:
+        state: on
+        brightness: 255
+        kelvin: 2257
+      light.kitchen:
+        state: on
+        brightness: 255
+        kelvin: 2257
+      light.bathroom:
+        state: on
+        brightness: 255
+        kelvin: 2257
+      light.living_room:
+        state: on
+        brightness: 255
+        rgb_color: [255,211,129]
+      light.bedroom:
+        state: on
+        brightness: 255
+        rgb_color: [255,211,129]

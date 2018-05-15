@@ -1,0 +1,18 @@
+#################################################################
+## Input_boolean
+#################################################################
+  vdaylight:
+    name: Daylight variable
+    initial: false
+  vnightlights:
+    name: Nightlight Variable
+    initial: false
+  vlouielights:
+    name: Louie Lights
+    initial: false
+  vguestmode:
+    name: Guest Mode
+    initial: false
+  vheadachemode:
+    name: Headache Mode
+    initial: false
