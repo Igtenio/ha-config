@@ -19,6 +19,7 @@ core
 *.key
 *.pem
 *.old
+*.log
 location.txt
 mqttssl
 appdaemon/*.log*
