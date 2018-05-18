@@ -66,14 +66,17 @@
   action:
     - service: input_boolean.turn_on
       data:
-        entity_id: input_boolean.vnightlights
+        entity_id: "input_boolean.vnightlights"
+    - service: input_boolean.turn_off
+      data:
+        entity_id: "input_boolean.vlouielights"
     - service: media_player.kodi_call_method
       data:
         entity_id: media_player.kodi
         method: System.Shutdown
     - service: scene.turn_on
       data:
-        entity_id: scene.night_lights
+        entity_id: "scene.night_lights"
 
 ####################     Lighting     ####################
 ##########################################################
@@ -179,8 +182,12 @@
         entity_id: device_tracker.ashley_5e
         state: 'not_home'
   action:
-    service: scene.turn_on
-    entity_id: scene.louie_lights
+    - service: input_boolean.turn_on
+      data:
+        entity_id: "input_boolean.vlouielights"
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.louie_lights"
 
 - alias: 'Bathroom Light AutoOn'
   trigger:
@@ -251,6 +258,9 @@
       before: '06:00:00'
       after: '23:00:00'
   action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: "input_boolean.vlouielights"
     - service: scene.turn_on
       data:
         entity_id: "scene.gary_lights"
@@ -276,6 +286,9 @@
         - thu
         - fri
   action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: "input_boolean.vlouielights"
     - service: scene.turn_on
       data:
         entity_id: "scene.ashley_lights"
@@ -308,6 +321,9 @@
             entity_id: device_tracker.gary_6p
             state: 'home'
   action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: "input_boolean.vlouielights"
     - service: scene.turn_on
       data:
         entity_id: "scene.weekend_lights"
