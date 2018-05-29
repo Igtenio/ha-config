@@ -1,0 +1,45 @@
+#################################################################
+## Input Select
+#################################################################
+
+  ap_saver_night:
+    options:
+      - 1
+      - 2
+      - 3
+      - 4
+  diet_pepsi:
+    name: Does Gary have Diet Pepsi?
+    options:
+      - No
+      - Yes
+    initial: No
+    icon: mdi:cup-water
+  medications_ashley:
+    name: Does kitteh have medications to pick up?
+    options:
+      - No
+      - Yes
+    initial: No
+    icon: mdi:prescription
+  medications_gary:
+    name: Does gareh have medications to pick up?
+    options:
+      - No
+      - Yes
+    initial: No
+    icon: mdi:prescription
+  kitteh_loves:
+    name: Does kitteh want to make sure gareh especially knows he's loved?
+    options:
+      - No
+      - Yes
+    initial: No
+    icon: mdi:heart-circle-outline
+  gareh_loves:
+    name: Does gareh want to make sure kitteh especially knows she's loved?
+    options:
+      - No
+      - Yes
+    initial: No
+    icon: mdi:heart-circle-outline

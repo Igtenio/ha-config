@@ -20,3 +20,14 @@
       hidden: false
       custom_ui_state_card: state-card-floorplan
       config: !include floorplan.yaml
+#################################################################
+    group.temp:
+      order: 4
+    group.daily_forecast:
+      order: 1
+    group.media_center_outlet:
+      order: 3
+    group.lights:
+      order: 5
+    group.weather_overview:
+      order: 2

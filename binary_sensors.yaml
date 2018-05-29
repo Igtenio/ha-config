@@ -24,6 +24,28 @@
     qos: 1
 
   - platform: mqtt
+    name: "Office Door Status"
+    state_topic: "smartthings/Office Door Sensor/contact" 
+    device_class: door
+    payload_on: "open"
+    payload_off: "closed"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
+    qos: 1
+
+  - platform: mqtt
+    name: "Office Door Vibration"
+    state_topic: "smartthings/Office Door Sensor/acceleration"
+    device_class: vibration
+    payload_on: "active"
+    payload_off: "inactive"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
+    qos: 1
+
+  - platform: mqtt
     name: "Bathroom Motion"
     state_topic: "smartthings/Bathroom Sensor/motion"
     device_class: motion

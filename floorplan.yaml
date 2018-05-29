@@ -21,6 +21,7 @@
              - light.kitchen
              - light.bedroom
              - light.bathroom
+             - light.office
           states:
             - state: 'on'
               class: 'light-on'
@@ -34,6 +35,7 @@
           entities:
             - binary_sensor.front_door_status
             - binary_sensor.bathroom_motion
+            - binary_sensor.office_door_status
           states:
             - state: 'off'
               class: 'info-background'
@@ -49,6 +51,7 @@
           entities:
             - sensor.front_door_temp
             - sensor.bathroom_temp
+            - sensor.office_door_temp
           text_template: '${entity.state ? entity.state : "undefined"}'
 
 # The above text_template uses extended attributes from the climate.* objects to get current temperature.

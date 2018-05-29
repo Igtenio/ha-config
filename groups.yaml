@@ -1,6 +1,10 @@
 #################################################################
 ## Groups
 #################################################################
+
+#################################################################
+## Views
+#################################################################
   admin:
     view: yes
     icon: mdi:home
@@ -13,10 +17,12 @@
       - group.all_scripts
       - group.front_door_sensor
       - group.bathroom_sensor
+      - group.office_door_sensor
       - group.media_center_outlet
       - group.daily_forecast
       - group.weather_overview
       - group.zones
+      - group.network_equipment
 
   living_room:
     view: yes
@@ -38,6 +44,15 @@
       - group.lights
       - group.weather_overview
 
+  life_maintenance:
+    view: yes
+    icon: mdi:calendar
+    entities:
+      group.reminders
+
+#################################################################
+## Status Cards
+#################################################################
   inputs:
     name: Inputs
     entities:
@@ -85,6 +100,14 @@
       - sensor.front_door_temp
       - sensor.front_door_batt
 
+  office_door_sensor:
+    name: Office Door Sensor
+    entities:
+      - binary_sensor.office_door_status
+      - binary_sensor.office_door_vibration
+      - sensor.office_door_temp
+      - sensor.office_door_batt
+
   media_center_outlet:
     name: Media Center Outlet
     entities:
@@ -102,19 +125,38 @@
       - light.hallway
       - light.kitchen
       - light.living_room
-  
+      - light.office
+
   temp:
     name: Temperature Sensors
     entities:
       - sensor.front_door_temp
       - sensor.bathroom_temp
+      - sensor.office_door_temp
 
   scenes:
     name: Lighting Scenes
     entities:
       - scene.gary_lights
 
+  network_equipment:
+    name: Network Equipment
+    entities:
+      - sensor.thor_f101
+      - sensor.thor_f102
+      - sensor.thor_f103
+
   zones:
     name: Zones
     entities:
       - binary_sensor.floorplan
+
+######################  Life Maintenance  ################
+  reminders:
+    name: Reminders
+    entities:
+      - input_select.diet_pepsi
+      - input_select.medications_ashley
+      - input_select.medications_gary
+      - input_select.kitteh_loves
+      - input_select.gareh_loves

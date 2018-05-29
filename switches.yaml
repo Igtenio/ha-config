@@ -11,3 +11,27 @@
     payload_not_available: "Offline"
     retain: true
     qos: 1
+
+  - platform: snmp
+    name: Thor F101
+    host: 10.0.5.2
+    community: homeassistant
+    baseoid: 1.3.6.1.2.1.2.2.1.7.10001
+    payload_on: 1
+    payload_off: 2
+
+  - platform: snmp
+    name: Thor F102
+    host: 10.0.5.2
+    community: homeassistant
+    baseoid: 1.3.6.1.2.1.2.2.1.7.10002
+    payload_on: 1
+    payload_off: 2
+
+  - platform: snmp
+    name: Thor F103
+    host: 10.0.5.2
+    community: homeassistant
+    baseoid: 1.3.6.1.2.1.2.2.1.7.10003
+    payload_on: 1
+    payload_off: 2

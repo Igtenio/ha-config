@@ -56,8 +56,15 @@
           - "light.bedroom"
           - "light.dining_room"
           - "light.hallway"
+          - "light.office"
           - "light.kitchen"
           - "light.living_room"
+    - service: switch.turn_on
+      data:
+        entity_id:
+          - "switch.thor_f101"
+          - "switch.thor_f102"
+          - "switch.thor_f103"
 
 ####################      Hidden      ####################
 - alias: 'Night Lights'
@@ -371,6 +378,27 @@
       data_template:
         entity_id: light.hallway
 
+- alias: 'DLM_office'
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: light.office
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vdaylight
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vheadachemode
+        state: 'off'
+  action:
+    - delay: 0:15
+    - service: light.turn_off
+      data_template:
+        entity_id: light.office
+
 - alias: 'DLM_kitchen'
   hide_entity: true
   trigger:
@@ -433,4 +461,85 @@
     - service: light.turn_off
       data_template:
         entity_id: light.living_room
+
+#####################  AP Scripts  #######################
+
+- alias: 'AP Saver'
+  hide_entity: false
+  initial_state: 'on'
+  trigger:
+    platform: time
+    at: '00:15:00'
+  action:
+    - service: switch.turn_off
+      data_template:
+        entity_id: >
+          {% if is_state("input_select.ap_saver_night", "3") %}
+            switch.thor_f103
+          {% elif is_state("input_select.ap_saver_night", "2") %}
+            switch.thor_f102
+          {% elif is_state("input_select.ap_saver_night", "1") %}
+            switch.thor_f101
+          {% endif %}
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.ap_saver_night
+        option: >
+          {% if is_state("input_select.ap_saver_night", "3") %}
+            4
+          {% elif is_state("input_select.ap_saver_night", "2") %}
+            3
+          {% elif is_state("input_select.ap_saver_night", "1") %}
+            2
+          {% endif %}
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: '{{ is_state("input_select.ap_saver_night", "4") }}'
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.ap_saver_night
+        option: 1
+###################  Life Maintenance  ###################
+
+- alias: 'Gary Reminders'
+  hide_entity: false
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.gary_6p
+    from: 'Sonifi'
+    to: 'Away'
+  condition:
+    - condition: time
+      after: '01:00:00'
+      before: '05:00:00'
+    - condition: state
+      entity_id: input_select.diet_pepsi
+      state: 'False'
+    - condition: state
+      entity_id: input_select.kitteh_loves
+      state: 'True'
+  action:
+    - service: notify.louie
+      data_template:
+        message: >
+          Hai, papa. I'm supposeda tells mew somefin'.
+          {% if is_state("input_select.diet_pepsi", "False") %}
+          You don't has no diet pepsis. Might wanna fix dat.
+          {% endif %}
+          {% if is_state("input_select.diet_pepsi", "False") and is_state("input_select.kitteh_loves", "True") %}
+          Alsos,
+          {% endif %}
+          {% if is_state("input_select.kitteh_loves", "True") %}
+          Mama wanted me to tell you dat we loves you so much.
+          {% endif %}
+        target: !secret notify_papa
+    - condition: template
+      value_template: '{{ is_state("input_select.kitteh_loves", "True") }}'
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.kitteh_loves
+        option: False
+
 ##########################################################
