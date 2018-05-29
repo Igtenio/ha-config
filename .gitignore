@@ -53,3 +53,4 @@ pyozw.sqlite
 hadaemon
 __pycache__/
 entity_registry.yaml
+ssh/
